@@ -22,10 +22,10 @@ const defaultActions = {
   default: () => {},
 }
 
-const lambda = require(process.env.LAMBDA_PATH)
 const wss = new WebSocket.Server({ port: process.env.SOCKET_PORT })
 
 wss.on("connection", (socket) => {
+  const lambda = require(process.env.LAMBDA_PATH)
   defaultActions.connect(socket)
   socket.on("message", (body) => {
     const event = {
