@@ -2,6 +2,7 @@ require("dotenv").config()
 const WebSocket = require("ws")
 const short = require("short-uuid")
 
+require("dotenv").config({ path: process.env.LAMBDA_ENV_PATH })
 const lambda = require(process.env.LAMBDA_PATH)
 const connections = {}
 
@@ -28,9 +29,9 @@ const wss = new WebSocket.Server({ port: process.env.SOCKET_PORT })
 
 wss.on("connection", (socket) => {
   defaultActions.connect(socket)
-  socket.on("message", (data) => {
+  socket.on("message", (body) => {
     const event = {
-      body: JSON.stringify(data),
+      body,
       requestContext: {
         connectionId: socket.connectionId,
       },
