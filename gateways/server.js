@@ -19,7 +19,6 @@ app.use(
 )
 
 app.post("/@connections/:id", (req, res) => {
-  console.log(req.body)
   const { id } = req.params
   const { data } = req.body
   send(id, data)

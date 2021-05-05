@@ -5,7 +5,7 @@ const connections = {}
 
 const send = (connectionId, data) => {
   const connection = connections[connectionId]
-  connection.send(data)
+  connection.send(JSON.stringify(data))
 }
 
 const defaultActions = {
