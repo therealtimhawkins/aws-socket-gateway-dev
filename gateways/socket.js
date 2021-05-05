@@ -4,8 +4,13 @@ const short = require("short-uuid")
 const connections = {}
 
 const send = (connectionId, data) => {
-  const connection = connections[connectionId]
-  connection.send(JSON.stringify(data))
+  try {
+    const connection = connections[connectionId]
+    console.log("Sending to Client: ", connectionId)
+    connection.send(JSON.stringify(data))
+  } catch (err) {
+    console.log("Gateway", err)
+  }
 }
 
 const defaultActions = {
@@ -22,10 +27,10 @@ const defaultActions = {
   default: () => {},
 }
 
+const lambda = require(process.env.LAMBDA_PATH)
 const wss = new WebSocket.Server({ port: process.env.SOCKET_PORT })
 
 wss.on("connection", (socket) => {
-  const lambda = require(process.env.LAMBDA_PATH)
   defaultActions.connect(socket)
   socket.on("message", (body) => {
     const event = {
