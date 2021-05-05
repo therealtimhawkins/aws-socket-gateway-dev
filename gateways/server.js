@@ -23,8 +23,7 @@ app.post("/@connections/:id", (req, res) => {
   const { id } = req.params
   const { data } = req.body
   send(id, data)
-
-  res.status(200).json({ id, data })
+  res.status(200)
 })
 
 app.listen(process.env.SERVER_PORT, () => {
